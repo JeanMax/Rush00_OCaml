@@ -18,7 +18,8 @@
 lGrid (9x9) : string list  
 sGrid (3x3) : string    
 p1Name : string    
-p2Name : string    
+p2Name : string
+nbPlayer : int
 (x y : int (1-9, -1 error), p: char (X O))  
   
 * modules:  
@@ -26,13 +27,13 @@ Util
 Draw  
 Main  
   
-### Util ###
-todo: declarer vars  
-askNPlayers () -> int  
-askP1Name () -> string  
-askP2Name () -> string  
+### Util (mcanal) ###
+todo: declarer vars    -DONE-    
+askNPlayers () -> int  -DONE-    
+askP1Name () -> string    -DONE-    
+askP2Name () -> string    -DONE-    
   
-### Draw ###
+### Draw (tpayet) ###
 waitMouse () -> (x, y)  
 updateWindow x y p -> ()  
 drawEmptyGrid () -> ()  
