@@ -26,19 +26,18 @@ Util
 Draw  
 Main  
   
-* fun:  
-### Util ###  
+### Util ###
 todo: declarer vars  
 askNPlayers () -> int  
 askP1Name () -> string  
 askP2Name () -> string  
   
-### Draw  ###  
+### Draw ###
 waitMouse () -> (x, y)  
 updateWindow x y p -> ()  
 drawEmptyGrid () -> ()  
   
-### Main ###  
+### Main ###
 waitKeyboard () -> (x, y)  
 updateLGrid x y p -> ()  
 updateSGrid () -> ()  
