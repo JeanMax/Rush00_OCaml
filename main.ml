@@ -6,7 +6,7 @@
 (*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2015/11/07 23:36:09 by mcanal            #+#    #+#             *)
-(*   Updated: 2015/11/08 06:39:27 by mcanal           ###   ########.fr       *)
+(*   Updated: 2015/11/08 14:36:02 by mcanal           ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -57,7 +57,7 @@ let print_grid () =
 
 
   
-let print_grid grid =
+let print_lGrid grid =
   let rec zboub i = function
 	  []          -> ()
 	 | head::tail -> print_endline ( 
@@ -69,6 +69,11 @@ let print_grid grid =
 					 zboub (i + 1) tail
   in zboub 1 grid
 
+
+
+let rec print_sGrid = function
+  []           -> ()
+  | head::tail -> print_endline head; print_sGrid tail
 
 
 let rec waitKeyboard () =
@@ -95,7 +100,7 @@ let rec waitKeyboard () =
   let i = str_index s ' ' in
 
   if i != (-1) && str_rindex s ' ' = i && String.length s < 4 
-	 && ft_string_all (fun x -> (x >= '0' && x <= '9') || x = ' ') s
+	 && ft_string_all (fun x -> (x >= '1' && x <= '9') || x = ' ') s
   then (int_of_string (String.sub s (i + 1) (String.length s - 1 - i)),
 		int_of_string (String.sub s 0 i))
   else (print_endline "Incorrect format."; waitKeyboard ())
@@ -107,22 +112,10 @@ let checkIfPossible x y lGrid =
   if c != 'X' && c != 'O' then true else false
 
 
-(* TODO: unbjфrk it :/ *)
-let updateLGrid x y p sGrid =
+let updateGrids x y p sGrid lGrid =
   if p = "X" then
-	begin
-	  let g = Util.setGrid  x     y    "\\" sGrid in
-	  let g = Util.setGrid (x+1)  y    " " g in
-	  let g = Util.setGrid (x+2)  y    "/" g in
-	  let g = Util.setGrid  x    (y+1) " " g in
-	  let g = Util.setGrid (x+1) (y+1) "x" g in
-	  let g = Util.setGrid (x+2) (y+1) " " g in
-	  let g = Util.setGrid  x    (y+2) "/" g in
-	  let g = Util.setGrid (x+1) (y+2) " " g in
-	  Util.setGrid         (x+2) (y+2) "\\" g
-	end
+	  (Util.setGrid ((x-1)/3+1) ((y-1)/3+1) p sGrid,
 
-(*
 	  Util.setGrid   x     y    "\\" 
 	  (Util.setGrid (x+1)  y    " " 
 	  (Util.setGrid (x+2)  y    "/" 
@@ -131,9 +124,10 @@ let updateLGrid x y p sGrid =
       (Util.setGrid (x+2) (y+1) " "
       (Util.setGrid  x    (y+2) "/" 
 	  (Util.setGrid (x+1) (y+2) " "
-      (Util.setGrid (x+2) (y+2) "\\" sGrid))))))))
- *)
+      (Util.setGrid (x+2) (y+2) "\\" lGrid)))))))) )
   else
+	  (Util.setGrid ((x-1)/3+1) ((y-1)/3+1) p sGrid,
+
 	  Util.setGrid   x     y    "/" 
       (Util.setGrid (x+1)  y    "-" 
       (Util.setGrid (x+2)  y    "\\" 
@@ -142,7 +136,7 @@ let updateLGrid x y p sGrid =
       (Util.setGrid (x+2) (y+1) "|" 
       (Util.setGrid  x    (y+2) "\\" 
       (Util.setGrid (x+1) (y+2) "-" 
-      (Util.setGrid (x+2) (y+2) "/" sGrid))))))))
+      (Util.setGrid (x+2) (y+2) "/" sGrid)))))))) )
 
 
 (* TODO: test this big ugly function... *)
@@ -204,6 +198,10 @@ let checkVictory sGrid lGrid p =
 
 
 let() =
-  print_grid (updateLGrid 1 1 "O" Util.lGrid);
-  print_endline "";
-  print_grid (updateLGrid 1 1 "X" Util.lGrid) 
+  match updateGrids 4 7 "X" Util.sGrid Util.lGrid with
+	(s, l) -> let sGrid = s in
+			  let lGrid = l in
+
+			 print_lGrid lGrid;
+			 print_endline "";
+			 print_sGrid sGrid

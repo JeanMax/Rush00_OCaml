@@ -6,7 +6,7 @@
 (*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2015/11/07 23:34:17 by mcanal            #+#    #+#             *)
-(*   Updated: 2015/11/08 06:41:55 by mcanal           ###   ########.fr       *)
+(*   Updated: 2015/11/08 14:09:15 by mcanal           ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -36,6 +36,7 @@ let sGrid = ["---";
 			 "---";
 			 "---"]
 
+(*
 let rec askNPlayers () =
   print_endline "1 or 2 player(s) game? (1/2)";
   match (read_line ()).[0] with
@@ -64,7 +65,7 @@ let rec askP2Name () =
 let p2Name = if nbPlayers = 2 then askP2Name ()
 			 else if p1Name = "X" then "O"
 			 else "X"
-					   
+ *)					   
 let rec list_replace n x = function
     []                    -> []
   | _::tail when n = 0    -> x::tail
@@ -79,5 +80,5 @@ let getGrid x y grid=
 
 (* /!\ not out of range protected! /!\ *)
 let setGrid x y p grid =
-  list_replace (y-1) (string_replace (x-1) p (List.nth grid (y-1))) lGrid
+  list_replace (y-1) (string_replace (x-1) p (List.nth grid (y-1))) grid
 

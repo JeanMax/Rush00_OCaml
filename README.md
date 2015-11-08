@@ -32,7 +32,7 @@ todo: declarer vars    -DONE-
 askNPlayers () -> int  -DONE-    
 askP1Name () -> string    -DONE-    
 askP2Name () -> string    -DONE-    
-setGrid x y (p:string) grid -> grid    -DONE bjorked?? do intensive test-    
+setGrid x y (p:string) grid -> grid    -DONE-    
 getGrid x y grid -> (p:char)    -DONE-    
   
 ### Draw (tpayet) ###
@@ -44,5 +44,4 @@ drawEmptyGrid () -> ()
 waitKeyboard () -> (x, y)   -DONE-    
 checkIfPossible x y lGrid -> bool     -DONE-    
 checkVictory sGrid lGrid (p:string) -> bool     -DONE- (testing needed)  
-updateSGrid sGrid -> sGrid      -nah, just use setGrid instead-  
-updateLGrid lGrid -> lGrid   -DONE but bjorked-  
+updateGrids x y p sGrid lGrid -> (sGrid, lGrid) -DONE-  
