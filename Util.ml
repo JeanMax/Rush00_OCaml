@@ -6,21 +6,9 @@
 (*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2015/11/07 23:34:17 by mcanal            #+#    #+#             *)
-(*   Updated: 2015/11/08 14:09:15 by mcanal           ###   ########.fr       *)
+(*   Updated: 2015/11/08 19:37:59 by mcanal           ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
-
-(*
-let lGrid = ["123456789";
-			 "abcdefghi";
-			 "jklmnopqr";
-			 "stuvwxyz.";
-			 "ABCDEFGHI";
-			 "JKLMNOPQR";
-			 "STUVWXYZ:";
-			 "987654321";
-			 "ihgfedbca"] 
-*)
 
 let lGrid = ["---------";
 			 "---------";
@@ -37,6 +25,18 @@ let sGrid = ["---";
 			 "---"]
 
 
+let rec askIsGui () =
+  print_endline "Read input from mouse?! (y/n)";
+  let s = read_line () in
+  if String.length s = 0 then askIsGui ()
+  else 
+  match s.[0] with
+	'y' -> true
+  | 'n' -> false
+  | _   -> askIsGui ()
+		  
+let isGui = askIsGui()
+			  
 let rec askNPlayers () =
   print_endline "1 or 2 player(s) game? (1/2)";
   let s = read_line () in
@@ -84,4 +84,18 @@ let getGrid x y grid=
 (* /!\ not out of range protected! /!\ *)
 let setGrid x y p grid =
   list_replace (y-1) (string_replace (x-1) p (List.nth grid (y-1))) grid
+
+let str_index s c = 
+  let rec zboub s lim i c =
+	if i >= lim then (-1)
+	else if s.[i] = c then i 
+	else zboub s lim (i + 1) c
+  in zboub s (String.length s) 0 c
+	
+let str_rindex s c = 
+  let rec zboub s i c =
+	if i < 0 then (-1)
+	  else if s.[i] = c then i
+	else zboub s (i - 1) c
+  in zboub s (String.length s - 1) c
 

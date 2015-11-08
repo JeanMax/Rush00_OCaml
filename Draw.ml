@@ -1,12 +1,14 @@
 let drawEmptyGrid () =
-	Graphics.open_graph " 900x900";
-	Graphics.moveto 100 0; Graphics.lineto 100 900;
-	Graphics.moveto 200 0; Graphics.lineto 200 900;
-	Graphics.moveto 400 0; Graphics.lineto 400 900;
-	Graphics.moveto 500 0; Graphics.lineto 500 900;
-	Graphics.moveto 700 0; Graphics.lineto 700 900;
-	Graphics.moveto 800 0; Graphics.lineto 800 900;
-	Graphics.moveto 0 100; Graphics.lineto 900 100;
+  Graphics.open_graph " 900x900";
+  Graphics.set_color 0x000000;
+  Graphics.set_line_width 1;
+  Graphics.moveto 100 0; Graphics.lineto 100 900;
+  Graphics.moveto 200 0; Graphics.lineto 200 900;
+  Graphics.moveto 400 0; Graphics.lineto 400 900;
+  Graphics.moveto 500 0; Graphics.lineto 500 900;
+  Graphics.moveto 700 0; Graphics.lineto 700 900;
+  Graphics.moveto 800 0; Graphics.lineto 800 900;
+  Graphics.moveto 0 100; Graphics.lineto 900 100;
 	Graphics.moveto 0 200; Graphics.lineto 900 200;
 	Graphics.moveto 0 400; Graphics.lineto 900 400;
 	Graphics.moveto 0 500; Graphics.lineto 900 500;
@@ -37,25 +39,29 @@ let updateWindow x y p =
 	else if p = "X" then displayP2 x y
 
 let waitMouse () =
-	let status = Graphics.wait_next_event ([Graphics.Button_up]) in
-	(* (status.mouse_x, status.mouse_y); *)
-	let x = ((status.mouse_x / 100) + 1) in
-	let y = (9 - (status.mouse_y / 100))in
-	(x, y)
+  ignore (Graphics.wait_next_event ([Graphics.Button_up]));
+  match Graphics.mouse_pos () with
+	(x, y) -> ((x/100+1), (9-y/100))
+  
 
-let gridWins x y p = (* Draw.gridWins (((x - 1) / 3) + 1) (((y - 1) / 3) + 1) "O"; *)
+let gridWins x y p =
 	if p = "O" then
-		begin
-			Graphics.set_color 0x0000FF;
-			Graphics.set_line_width 9;
-			Graphics.draw_circle ((x * 300) - 150) (900 - ((y * 300) - 150)) 120
-		end
+	begin
+		Graphics.set_color 0x0000FF;
+		Graphics.set_line_width 9;
+		Graphics.draw_circle ((x * 300) - 150) (900 - ((y * 300) - 150)) 120
+	end
 	else
-		begin
-			Graphics.set_color 0x339933;
-			Graphics.set_line_width 9;
-			Graphics.moveto ((x * 300) - 240) (900 - (y * 300) + 240);
-			Graphics.lineto ((x * 300) - 60) (900 - (y * 300) + 60);
-			Graphics.moveto ((x * 300) - 60) (900 - (y * 300) + 240);
-			Graphics.lineto ((x * 300) - 240) (900 - (y * 300) + 60)
-		end
+	begin
+		Graphics.set_color 0x339933;
+		Graphics.set_line_width 9;
+		Graphics.moveto ((x * 300) - 240) (900 - (y * 300) + 240);
+		Graphics.lineto ((x * 300) - 60) (900 - (y * 300) + 60);
+		Graphics.moveto ((x * 300) - 60) (900 - (y * 300) + 240);
+		Graphics.lineto ((x * 300) - 240) (900 - (y * 300) + 60)
+	end
+
+let eraseGrid () =
+	Graphics.set_color 0xFFFFFF;
+	Graphics.draw_rect 0 0 900 900;
+	drawEmptyGrid ()
