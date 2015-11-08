@@ -6,10 +6,11 @@
 (*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2015/11/07 23:36:09 by mcanal            #+#    #+#             *)
-(*   Updated: 2015/11/08 19:50:28 by mcanal           ###   ########.fr       *)
+(*   Updated: 2015/11/08 20:43:33 by mcanal           ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
+(*
 let print_lGrid grid =
   let rec zboub i = function
 	  []          -> ()
@@ -21,27 +22,34 @@ let print_lGrid grid =
 					 then print_endline "-----------";
 					 zboub (i + 1) tail
   in zboub 1 grid
-
+ *)
+let print_lGrid grid =
+  let rec zboub i = function
+	  []          -> ()
+	| head::tail  ->
+	   String.iter (fun x -> print_char x; print_char ' ') (String.sub head 0 3);
+	   print_string "| ";
+	   String.iter (fun x -> print_char x; print_char ' ') (String.sub head 3 3);
+	   print_string "| ";
+	   String.iter (fun x -> print_char x; print_char ' ') (String.sub head 6 3);
+	   print_char '\n';
+	   if i mod 3 = 0 && i != 9
+	   then print_endline "---------------------";
+	   zboub (i + 1) tail
+  in zboub 1 grid
 
 		   
 let rec waitKeyboard () =
-  let ft_string_all f str =
-	let rec zboub n =
-      if n >= 0 then f(str.[n]) && zboub(n - 1) else true
-	in zboub (String.length str - 1) in
-
   let s = read_line () in
-  let i = Util.str_index s ' ' in
-
-  if i != (-1) && Util.str_rindex s ' ' = i && String.length s < 4 
-	 && ft_string_all (fun x -> (x >= '1' && x <= '9') || x = ' ') s
-  then (int_of_string (String.sub s (i + 1) (String.length s - 1 - i)),
-		int_of_string (String.sub s 0 i))
+  if String.length s = 3 && s.[0] >= '1' && s.[0] <= '9' && s.[1] = ' '
+	 && s.[2] >= '1' && s.[2] <= '9'
+  then (int_of_string (String.sub s 2 1),
+		int_of_string (String.sub s 0 1))
   else (print_endline "Incorrect format."; waitKeyboard ())
 
 
 
-let checkIfPossible x y sGrid lGrid = (* TODO : a finir !!! *)
+let checkIfPossible x y sGrid lGrid =
   let c = Util.getGrid x y lGrid in
   c != 'X' && c != 'O'
   && Util.getGrid ((x-1)/3+1) ((y-1)/3+1) sGrid = '-'
@@ -117,12 +125,15 @@ let checkVictory sGrid lGrid p sl =
 	   || checkVer x y grid || checkVer (x+1) y grid || checkVer (x+2) y grid 
 	   || checkDiag1 x y grid || checkDiag2 (x+2) y grid || checkDraw x y grid
 	then begin if n = 0
-			   then (print_endline (p ^ " wins the game!");
+			   then (print_endline ((if p = "X" then Util.p1Name else Util.p2Name)
+									^ " wins the game!\n");
+					 print_lGrid lGrid; print_endline "";
 					 ignore(Draw.waitMouse());
 					 Draw.eraseGrid ()) 
 			   else
 				 begin
-				   print_endline (p ^ " wins the grid " ^ 
+				   print_endline ((if p = "X" then Util.p1Name else Util.p2Name)
+								  ^ " wins the grid " ^ 
 									(string_of_int n) ^ "!");
 				   Draw.gridWins ((x-1)/3+1) ((y-1)/3+1) p
 				 end;
@@ -153,7 +164,7 @@ let checkVictory sGrid lGrid p sl =
 
 let megaChoiceIA sGrid lGrid =
 
-  let choiceIA grid p =
+  let choiceIA p =
 
 	let check_h x y grid =
 	  if (Util.getGrid    x  y grid = p
@@ -244,8 +255,8 @@ let megaChoiceIA sGrid lGrid =
 					else freeSpot (y+1) tail
   in
 	
-  if choiceIA lGrid 'X' <> (0, 0) then choiceIA lGrid 'X'
-  else if choiceIA lGrid 'O' <> (0, 0) then choiceIA lGrid 'O'
+  if choiceIA 'X' <> (0, 0) then choiceIA 'X'
+  else if choiceIA 'O' <> (0, 0) then choiceIA 'O'
   else freeSpot 1 lGrid
 
 

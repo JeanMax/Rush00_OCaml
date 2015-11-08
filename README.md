@@ -43,5 +43,5 @@ drawEmptyGrid () -> ()
 ### Main ###
 waitKeyboard () -> (x, y)   -DONE-    
 checkIfPossible x y lGrid -> bool     -DONE-    
-checkVictory sGrid lGrid (p:string) -> bool     -DONE- (testing needed)  
+checkVictory sGrid lGrid (p:string) -> bool     -DONE-
 updateGrids x y p sGrid lGrid -> (sGrid, lGrid) -DONE-  
