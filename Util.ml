@@ -36,10 +36,13 @@ let sGrid = ["---";
 			 "---";
 			 "---"]
 
-(*
+
 let rec askNPlayers () =
   print_endline "1 or 2 player(s) game? (1/2)";
-  match (read_line ()).[0] with
+  let s = read_line () in
+  if String.length s = 0 then askNPlayers ()
+  else 
+  match s.[0] with
 	'1' -> 1
   | '2' -> 2
   | _   -> askNPlayers ()
@@ -65,7 +68,7 @@ let rec askP2Name () =
 let p2Name = if nbPlayers = 2 then askP2Name ()
 			 else if p1Name = "X" then "O"
 			 else "X"
- *)					   
+ 					   
 let rec list_replace n x = function
     []                    -> []
   | _::tail when n = 0    -> x::tail

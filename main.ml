@@ -107,9 +107,9 @@ let rec waitKeyboard () =
 
 
 
-let checkIfPossible x y lGrid =
+let checkIfPossible x y sGrid lGrid = (* TODO : a finir !!! *)
   let c = Util.getGrid x y lGrid in
-  if c != 'X' && c != 'O' then true else false
+   c != 'X' && c != 'O'
 
 
 let updateGrids x y p sGrid lGrid =
@@ -192,16 +192,38 @@ let checkVictory sGrid lGrid p =
   ignore(checkSquare 7 7 9 lGrid);
 
   (* checkSVictory *)
-  checkSquare 1 1 0 sGrid (* TODO: launch new game if this return true *)  
+  checkSquare 1 1 0 sGrid (* TODO: launch new game if this return true *)
+
 
   
 
 
 let() =
-  match updateGrids 4 7 "X" Util.sGrid Util.lGrid with
+  (* match updateGrids 4 7 "X" Util.sGrid Util.lGrid with
 	(s, l) -> let sGrid = s in
 			  let lGrid = l in
 
 			 print_lGrid lGrid;
 			 print_endline "";
-			 print_sGrid sGrid
+			 print_sGrid sGrid *)
+
+	Draw.drawEmptyGrid ();
+	let rec main_loop n sGrid lGrid = 
+		if n = 0 then exit 1
+		else
+			begin
+				let p = (if (n mod 2) = 1 then "O" else "X") in
+				print_endline ((if p = "O" then Util.p1Name else Util.p2Name) ^ "'s turn to play.");
+				let (x, y) = Draw.waitMouse()
+				in 
+				if (checkIfPossible x y sGrid lGrid) = false then main_loop n sGrid lGrid
+				else 
+					Draw.updateWindow x y p;
+					let lGrid = Util.setGrid x y p lGrid in
+					checkVictory sGrid lGrid p; (* (TODO: a finir) *)
+					print_lGrid lGrid;
+			 		print_endline "";
+					print_sGrid sGrid;
+					main_loop (n + 1) sGrid lGrid
+			end
+		in main_loop 6 Util.sGrid Util.lGrid

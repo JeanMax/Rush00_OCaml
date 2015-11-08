@@ -18,7 +18,7 @@ OPTOBJS = $(SRC:.ml=.cmx)
 TMP = $(OBJS) $(OPTOBJS) $(SRC:.ml=.cmi) $(SRC:.ml=.o)
 DEPS = .depend
 
-LIBS = 
+LIBS = $(WITHGRAPHICS)
 WITHGRAPHICS = graphics.cma -cclib -lgraphics
 WITHUNIX = unix.cma -cclib -lunix
 WITHSTR = str.cma -cclib -lstr
